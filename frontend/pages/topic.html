@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Topic</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html {
+            min-height: 100%;
+        }
+        
+        body {
+            background: #f5fff5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        .container-fluid {
+            flex: 1;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        .container-fluid .row {
+            margin: 0;
+            width: 100%;
+        }
+        
+        .col-md-10 {
+            padding: 1.5rem;
+            overflow-x: hidden;
+        }
+        
+        .col-md-2 {
+            padding: 0;
+        }
+        
+        .sidebar {
+            min-height: 100vh;
+            background: #198754;
+            padding: 0;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 15px;
+        }
+        .sidebar a:hover {
+            background: #146c43;
+        }
+    </style>
+</head>
+<body>
+
+<div id="sharedHeader"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sidebar">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="lessons.html"><i class="fas fa-book"></i> Modules</a>
+            <a href="quiz.html"><i class="fas fa-question-circle"></i> Quiz</a>
+            <a href="challenges.html"><i class="fas fa-bullseye"></i> Challenges</a>
+            <a href="leaderboard.html"><i class="fas fa-trophy"></i> Leaderboard</a>
+        </div>
+        <div class="col-md-10 p-4">
+            <h2 id="topicTitle">Topic Information</h2>
+            <p id="topicModule" class="text-muted"></p>
+            <div id="topicContent" class="mb-4"></div>
+            <div class="d-flex flex-wrap gap-2 mb-4 align-items-center">
+                <a href="lessons.html" class="btn btn-success">Back to Modules</a>
+                <a id="prevTopic" href="#" class="btn btn-secondary d-none">Previous Topic</a>
+                <a id="nextTopic" href="#" class="btn btn-secondary d-none">Next Topic</a>
+                <span id="topicPosition" class="ms-auto text-muted"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const topics = [
+    {
+        id: "climate-causes",
+        title: "Causes of Climate Change",
+        module: "Climate Change",
+        content: [
+            "Climate change begins with the release of greenhouse gases into the atmosphere. These gases trap heat and warm the planet more than it naturally would.",
+            "The largest source of greenhouse gases is the burning of fossil fuels like coal, oil, and natural gas. Power plants, factories, and vehicles all burn these fuels to produce energy.",
+            "Coal-fired power stations alone release vast amounts of carbon dioxide, a gas that can stay in the atmosphere for many decades.",
+            "Vehicles that run on petrol and diesel emit carbon dioxide and other pollutants, contributing to both warming and poor air quality.",
+            "Natural gas is often used for heating and electricity, but it still produces carbon dioxide when burned, and methane leaks can occur during production and transport.",
+            "Industrial processes such as cement production, steelmaking, and chemical manufacturing produce significant greenhouse gas emissions.",
+            "Agriculture contributes methane and nitrous oxide, especially from livestock, rice paddies, and fertilizer use.",
+            "Methane is a powerful greenhouse gas that traps much more heat per molecule than carbon dioxide, even though it remains in the air for a shorter time.",
+            "Nitrous oxide comes from agricultural soils, fertilizer use, and industrial activity, and it is another potent greenhouse gas.",
+            "Deforestation and land use change reduce the number of trees that remove carbon dioxide from the air.",
+            "When forests are cut down or burned, the carbon stored in the trees is released, increasing atmospheric greenhouse concentrations.",
+            "Urban growth and land conversion for farms replace natural landscapes with concrete and asphalt, which absorb more heat and change local climates.",
+            "Poor waste management also contributes, because organic waste decomposing in landfills produces methane.",
+            "The extraction and transport of fossil fuels require energy and often cause leaks, which further increase emissions.",
+            "The use of refrigerants and air-conditioning chemicals has added to greenhouse warming in the past.",
+            "As economies grow, energy demand tends to rise, and without cleaner technology, more fossil fuels are burned.",
+            "A lack of energy efficiency in buildings and industry means more fuel is used than necessary, producing extra emissions.",
+            "Transportation systems that rely on single-occupant cars instead of public transit, walking, or cycling emit more greenhouse gases.",
+            "Tackling climate change requires addressing many sources at once, because one solution often helps reduce emissions in other areas."
+        ]
+    },
+    {
+        id: "climate-effects",
+        title: "Effects on Weather and Sea Levels",
+        module: "Climate Change",
+        content: [
+            "Rising global temperatures are shifting weather patterns around the world, causing some areas to experience more intense droughts while others see heavier rainfall.",
+            "Warmer air holds more moisture, which means storms often carry more rain and can lead to flash flooding when the water falls too quickly.",
+            "Heatwaves are becoming longer and more severe in many regions, increasing the risk of heat-related illness and putting pressure on energy systems.",
+            "In coastal areas, melting ice and the thermal expansion of oceans are raising sea levels faster than in the past.",
+            "As sea levels rise, low-lying islands and coastal communities face permanent submersion, land loss, and saltwater intrusion into freshwater supplies.",
+            "Storm surges during hurricanes and typhoons become more destructive when they strike higher seas, pushing water further inland.",
+            "Changing ocean temperatures alter fish migration patterns and disrupt marine food webs that depend on stable conditions.",
+            "Warmer seas weaken coral reefs and increase the frequency of harmful algal blooms that can damage marine life and coastal economies.",
+            "Shifts in rainfall timing affect farming cycles and can lead to failed harvests when fields are flooded or too dry.",
+            "Melting mountain glaciers reduce the long-term freshwater supply for communities and farms downstream that rely on seasonal snowmelt.",
+            "Permafrost in polar and mountain regions is thawing, releasing methane and carbon dioxide as frozen organic matter decomposes.",
+            "Thawing permafrost can also make the land unstable, causing landslides and damaging buildings, roads, and pipelines.",
+            "Higher temperatures make wildfires more frequent and harder to control, especially in forests that become drier over time.",
+            "Smoke from larger wildfires travels long distances, harming air quality, human health, and visibility in distant communities.",
+            "Earlier snowmelt and earlier springs shift the timing of plant growth, affecting ecosystems and agricultural planning.",
+            "Wildlife must adapt to rapid changes, but many species struggle to move or adjust quickly enough, increasing extinction risks.",
+            "When climate effects combine, communities often face extreme weather, water shortages, and food insecurity at the same time.",
+            "Effective climate adaptation includes building resilient infrastructure, protecting natural barriers, and improving disaster response plans.",
+            "Protecting wetlands, mangroves, and dunes can act as natural defenses against flooding and shoreline erosion.",
+            "Reducing greenhouse gas emissions remains essential because slower warming means less severe weather and fewer long-term sea level impacts."
+        ]
+    },
+    {
+        id: "greenhouse-gases",
+        title: "Greenhouse Gases and Emissions",
+        module: "Climate Change",
+        content: [
+            "Greenhouse gases act like a blanket around the Earth, trapping heat that would otherwise escape into space. Without them, the planet would be much colder.",
+            "The most common greenhouse gas is carbon dioxide, released when coal, oil, and natural gas are burned for electricity, heating, and transportation.",
+            "Carbon dioxide stays in the atmosphere for decades to centuries, so today's emissions can affect climate for a long time.",
+            "Methane is another greenhouse gas with much stronger warming per molecule than carbon dioxide, but it does not remain in the air as long.",
+            "Methane comes from livestock, rice paddies, landfills, and natural gas leaks, and reducing these sources can slow warming quickly.",
+            "Nitrous oxide is produced by fertilizers, industrial processes, and vehicle emissions. It has a long atmospheric lifetime and strong warming potential.",
+            "Fluorinated gases are used in refrigeration, air conditioning, and industrial applications. They trap heat very effectively even in small amounts.",
+            "Water vapor is the most abundant greenhouse gas, but its concentration depends on temperature rather than direct human emissions.",
+            "As the planet warms, more water evaporates, which can increase the greenhouse effect in a feedback loop.",
+            "Burning fossil fuels is the largest source of greenhouse gas emissions globally and accounts for most of the rise in carbon dioxide since the Industrial Revolution.",
+            "Deforestation is another major contributor because trees remove carbon dioxide from the air. When forests are cleared, that carbon is released again.",
+            "Agriculture adds methane and nitrous oxide. Better farming practices and reduced food waste can cut these emissions.",
+            "Solid waste in landfills generates methane when organic material decomposes without enough oxygen. Proper waste management can capture or reduce this gas.",
+            "Industrial activities such as cement production and chemical manufacturing produce carbon dioxide and other greenhouse gases as byproducts.",
+            "Transportation is a major emissions source, especially cars, trucks, ships, and airplanes that burn fossil fuels.",
+            "Buildings and industry emit greenhouse gases through heating, cooling, and electricity use, particularly in places that rely on fossil fuels for power.",
+            "Some greenhouse gases remain in the atmosphere for many years, but actions taken now can still reduce future warming and make a difference.",
+            "Switching to renewable energy sources, improving energy efficiency, and protecting forests are key strategies for lowering emissions.",
+            "Capturing methane from landfills and reducing leaks in gas infrastructure can help achieve quick emissions reductions.",
+            "Understanding how each gas behaves and where it comes from is essential for choosing the right solutions to fight climate change."
+        ]
+    },
+    {
+        id: "climate-action",
+        title: "Climate Action and Individual Change",
+        module: "Climate Change",
+        content: [
+            "Climate action means both reducing greenhouse gas emissions and adapting to the changes already underway. Individuals, communities, and governments all play important roles.",
+            "At home, saving energy by turning off lights, unplugging devices, and using efficient appliances lowers emissions and reduces bills.",
+            "Choosing cleaner transportation—walking, biking, carpooling, or using public transit—cuts fossil fuel use and improves air quality.",
+            "Eating more plant-based meals and reducing food waste lowers the emissions associated with agriculture and food production.",
+            "Supporting renewable energy, such as solar and wind power, helps shift our energy systems away from fossil fuels.",
+            "Planting trees and restoring forests capture carbon while also providing habitat, clean air, and shade.",
+            "Community projects like neighborhood gardens, cleanups, and climate education bring people together and create visible local climate benefits.",
+            "Advocating for climate policies at school, work, and in government encourages broader action and stronger environmental protections.",
+            "Reducing single-use plastics, recycling correctly, and choosing sustainable products help cut emissions from manufacturing and waste.",
+            "Supporting energy efficiency in homes, schools, and businesses reduces the energy needed for heating, cooling, and lighting.",
+            "Smart water use and rainwater harvesting save a valuable resource while reducing the energy needed to treat and transport water.",
+            "Using less meat and dairy can lower your carbon footprint because animal agriculture is a major source of methane and nitrous oxide.",
+            "Driving an electric or hybrid vehicle, when possible, can significantly reduce emissions compared to gasoline-powered cars.",
+            "Supporting local food producers reduces transportation emissions and strengthens community resilience.",
+            "Upgrading insulation and sealing gaps in buildings keeps homes warmer in winter and cooler in summer, requiring less energy.",
+            "A climate-ready community plans for extreme weather by building stronger infrastructure and protecting natural barriers like wetlands and mangroves.",
+            "Climate action also means learning and sharing information about climate science so more people understand why change is needed.",
+            "Every small step becomes more powerful when many people take it, and collective action can influence larger systems.",
+            "Investing time in climate-friendly habits today helps create a healthier environment for future generations.",
+            "The most effective climate solutions combine lifestyle changes, smart technology, policy support, and community cooperation."
+        ]
+    },
+    {
+        id: "plastic-reduction",
+        title: "Reducing Single-Use Plastics",
+        module: "Waste Management",
+        content: [
+            "Single-use plastics such as bags, bottles, straws, and packaging are designed to be used once and then discarded.",
+            "These items often travel into rivers, lakes, and oceans where they harm marine life, pollute waterways, and break into microplastics.",
+            "Plastic pollution can enter the food chain when animals mistake pieces of plastic for food.",
+            "Switching to reusable bottles, cloth bags, and metal straws dramatically reduces the amount of plastic trash produced each day.",
+            "Buying products with less packaging, choosing refillable containers, and avoiding disposable items are practical ways to cut plastic waste.",
+            "Many cities and countries now offer plastic bag bans, recycling programs, and refill stations to help people make better choices.",
+            "Properly sorting plastic by type helps recycling systems work more efficiently and prevents contamination.",
+            "Choosing items made from biodegradable or compostable materials can reduce the long-term impact of plastic waste.",
+            "Reducing plastic use in schools and workplaces helps establish habits that protect the environment for years to come.",
+            "Community cleanups and awareness campaigns help keep plastics out of waterways and encourage responsible behavior."
+        ]
+    },
+    {
+        id: "recycling-right",
+        title: "Recycling Right",
+        module: "Waste Management",
+        content: [
+            "Recycling helps conserve resources by turning used materials into new products instead of extracting fresh raw materials.",
+            "Not all recycling bins are the same; it is important to learn what your local program accepts, such as paper, glass, metal, and certain plastics.",
+            "Cleaning and sorting recyclables properly prevents contamination and improves the quality of recycled materials.",
+            "Items that are dirty, wet, or made of mixed materials can spoil an entire recycling batch and send more waste to landfills.",
+            "Reducing waste at the source is even better than recycling. Buy only what you need, reuse items when possible, and choose durable goods.",
+            "Some materials can be reused directly before recycling, such as glass jars, cardboard boxes, and fabric bags.",
+            "Learning the symbols on packaging helps you identify whether an item is recyclable or should be placed in a different bin.",
+            "When recycling programs are well-managed, recycled materials can become new products like paper, plastic bottles, and metal cans.",
+            "Using recycled paper and packaging supports businesses that choose sustainable materials.",
+            "Recycling correctly is one way to reduce the amount of waste sent to landfills and conserve natural resources."
+        ]
+    },
+    {
+        id: "composting",
+        title: "Composting Basics",
+        module: "Waste Management",
+        content: [
+            "Composting is a natural process where organic waste turns into rich soil through decomposition.",
+            "Kitchen scraps like fruit peels, vegetable trimmings, eggshells, and coffee grounds can feed a compost pile.",
+            "Yard waste like leaves, grass clippings, and small branches also break down well and provide structure to the compost.",
+            "Compost adds nutrients to gardens, improves soil texture, and helps retain moisture so plants grow stronger.",
+            "When compost is used instead of chemical fertilizers, it supports soil health and reduces pollution from synthetic products.",
+            "A good compost mixture balances ‘greens’ like fresh kitchen scraps with ‘browns’ like dry leaves and paper.",
+            "Turning the compost pile regularly adds air and helps the material decompose evenly.",
+            "Composting reduces the volume of waste sent to landfills and lowers methane emissions from organic waste.",
+            "Even small homes and classrooms can compost using a bin, tumbler, or worm composting system.",
+            "Healthy compost can be used in gardens, potted plants, and landscaping to enrich soil naturally."
+        ]
+    },
+    {
+        id: "e-waste",
+        title: "Electronic Waste Disposal",
+        module: "Waste Management",
+        content: [
+            "Electronic waste, or e-waste, includes damaged phones, batteries, computers, and other gadgets.",
+            "Many electronics contain hazardous materials like lead, mercury, and cadmium that can harm people and the environment if thrown in the trash.",
+            "Recycling e-waste allows valuable metals and plastics to be recovered and reused in new products.",
+            "Local recycling centers and special collection events accept e-waste so it can be handled safely.",
+            "Repairing, donating, or selling old devices extends their life and keeps them out of landfills.",
+            "Keeping electronics working longer reduces the need to manufacture new devices and saves resources.",
+            "Removing batteries from old devices before recycling keeps hazardous materials contained and easier to manage.",
+            "Proper e-waste recycling helps prevent toxins from leaking into soil and water.",
+            "Choosing electronics with longer warranties, repairable designs, and recyclable parts supports sustainable consumption.",
+            "Communities can organize e-waste collection drives to make recycling easier and safer for everyone."
+        ]
+    },
+    {
+        id: "water-home",
+        title: "Saving Water at Home",
+        module: "Water Conservation",
+        content: [
+            "Water is a valuable resource, and saving it at home helps protect the environment and reduce utility bills.",
+            "Fixing leaky faucets, using low-flow showerheads, and installing aerators on taps are simple water-saving measures.",
+            "Turning off the tap while brushing teeth or washing dishes can save several liters of water each day.",
+            "Collecting rainwater for gardening and using drought-resistant plants reduce the amount of tap water needed.",
+            "Being mindful of water use in the kitchen and bathroom makes a big difference over time.",
+            "Running full laundry and dishwasher loads uses water more efficiently than smaller, partial loads.",
+            "Shorter showers and water-saving habits help preserve freshwater supplies for the whole community.",
+            "Using a broom instead of a hose to clean driveways and sidewalks saves a lot of water.",
+            "Planting trees and shrubs that need less water helps lawns and gardens stay healthy with fewer resources.",
+            "Collecting and reusing water from simple tasks, like rinsing fruits, is another way to conserve water."
+        ]
+    },
+    {
+        id: "protect-rivers",
+        title: "Protecting Rivers and Lakes",
+        module: "Water Conservation",
+        content: [
+            "Rivers and lakes provide drinking water, habitat for animals, and places for people to swim and fish.",
+            "Pollution from chemicals, plastic, and runoff can damage freshwater ecosystems and hurt wildlife.",
+            "Keeping trash out of waterways and using fewer fertilizers on lawns helps keep rivers and lakes healthy.",
+            "Joining local cleanup events and planting vegetation near shores reduces erosion and improves water quality.",
+            "Protecting freshwater habitats supports biodiversity and ensures safe water for communities now and in the future.",
+            "Wetlands act like natural filters, removing pollutants and helping prevent floods when waters rise.",
+            "Avoiding chemical spills and disposing of oil and paint properly protects aquatic life.",
+            "Maintaining native plants along riverbanks stabilizes soil and reduces sediment that can harm fish habitats.",
+            "Reducing plastic waste and carrying reusable containers lowers the amount of trash that can enter waterways.",
+            "Learning about local watersheds helps communities make better choices that protect freshwater resources."
+        ]
+    },
+    {
+        id: "water-gardens",
+        title: "Water-Smart Garden Care",
+        module: "Water Conservation",
+        content: [
+            "A water-smart garden uses plants, soil, and techniques that need less irrigation to thrive.",
+            "Planting native and drought-tolerant species helps gardens survive on rain and minimal watering.",
+            "Mulching garden beds keeps soil moist, prevents weeds, and reduces the need for frequent watering.",
+            "Using drip irrigation systems delivers water directly to roots where it is needed most.",
+            "Rain gardens capture stormwater and allow it to soak into the ground instead of running off into drains.",
+            "Grouping plants with similar water needs together makes garden care more efficient.",
+            "Adding compost to soil improves its ability to hold water and nourishes plants naturally.",
+            "Using a rain barrel to collect water from a roof provides a free source of irrigation for plants.",
+            "Watering early in the morning or late in the evening reduces evaporation and helps plants absorb moisture.",
+            "Designing gardens with terraces and swales can capture rainwater and reduce runoff."
+        ]
+    },
+    {
+        id: "clean-water",
+        title: "Clean Drinking Water Access",
+        module: "Water Conservation",
+        content: [
+            "Clean drinking water is essential for health, cooking, and hygiene.",
+            "Many communities still face challenges with water pollution, contaminated supplies, and unreliable sanitation.",
+            "Protecting water sources from pollution, conserving freshwater, and improving infrastructure are keys to safe water access.",
+            "Simple actions like disposing of chemicals properly and reducing plastic waste help keep water sources clean.",
+            "Supporting water treatment and conservation helps ensure that everyone can access safe drinking water.",
+            "A clean water system depends on both natural protection and careful human management.",
+            "Using fewer harmful chemicals in the home and yard reduces the pollution that can reach drinking water.",
+            "Protecting wetlands and forests near rivers and lakes keeps water cleaner by filtering runoff.",
+            "Education and strong community action are essential for protecting safe water for everyone.",
+            "When communities work together to conserve and protect water, they safeguard health and the environment."
+        ]
+    },
+    {
+        id: "solar-home",
+        title: "Solar Power at Home",
+        module: "Renewable Energy",
+        content: [
+            "Solar power uses sunlight to create electricity without burning fossil fuels.",
+            "Rooftop solar panels can power home lights, appliances, and even charge electric vehicles.",
+            "Solar systems come in different sizes, from small panels for a single device to larger setups for full home electricity.",
+            "Using solar energy reduces electricity bills and lowers the home’s carbon footprint.",
+            "Renewable energy incentives and cheaper panel costs make solar a more affordable option for many households.",
+            "Solar panels work best when they receive direct sunlight, so placement and angle matter.",
+            "Adding battery storage can help store solar energy for use at night or during cloudy days.",
+            "Solar water heaters are another way to use the sun’s energy for household needs.",
+            "Community solar projects allow people who do not own a home to benefit from solar energy too.",
+            "Using solar power supports cleaner air and helps reduce reliance on fossil fuels."
+        ]
+    },
+    {
+        id: "wind-energy",
+        title: "Wind Energy for Communities",
+        module: "Renewable Energy",
+        content: [
+            "Wind turbines convert moving air into electricity and are an important source of clean energy.",
+            "Large wind farms and smaller community turbines both help reduce dependence on fossil fuels.",
+            "Wind energy produces no emissions during operation and can complement solar power on windy days.",
+            "Careful planning ensures turbines are placed where they have minimal impact on wildlife and local communities.",
+            "Wind power is part of a broader renewable energy strategy that includes solar, hydro, and more.",
+            "Modern turbines are designed to be quieter and to avoid disturbing birds and bats.",
+            "Wind energy can provide power to rural areas that are far from large power plants.",
+            "Community wind projects help people share the benefits of clean energy and local jobs.",
+            "Wind power is reliable when the location consistently receives strong winds.",
+            "Using wind energy helps reduce pollution and slows the growth of greenhouse gas emissions."
+        ]
+    },
+    {
+        id: "hydropower",
+        title: "Hydropower and Small Dams",
+        module: "Renewable Energy",
+        content: [
+            "Hydropower creates electricity using flowing water, often from rivers or dams.",
+            "Small hydropower projects can supply clean energy to remote communities while reducing environmental impact.",
+            "They work by using turbines that spin as water flows through them, generating electrical power.",
+            "Maintaining healthy waterways and fish habitats is important when building hydropower systems.",
+            "Hydropower is reliable and can help balance energy supply when wind and solar are less available.",
+            "Run-of-river systems generate power without large reservoirs, reducing changes to the river.",
+            "Hydropower helps store energy by using water held behind dams and releasing it when power is needed most.",
+            "When designed carefully, hydropower can support local communities and preserve ecosystems.",
+            "Small-scale hydropower is often better for the environment than large dams that flood large areas.",
+            "Using clean water power reduces the need for fossil fuels and helps fight climate change."
+        ]
+    },
+    {
+        id: "bioenergy",
+        title: "Bioenergy and Sustainable Fuels",
+        module: "Renewable Energy",
+        content: [
+            "Bioenergy comes from organic materials like plants, wood waste, and agricultural residues.",
+            "These materials can be burned or converted into fuels to produce heat and electricity.",
+            "Using bioenergy responsibly means choosing sources that do not harm forests or food supplies.",
+            "Sustainable fuels made from waste materials can reduce pollution and support circular economies.",
+            "When managed carefully, bioenergy adds to renewable energy options while using existing organic resources.",
+            "Bioenergy can include biogas from food waste, plant oils, or animal manure.",
+            "Using waste materials for energy keeps them out of landfills and recycles their stored energy.",
+            "The best bioenergy systems avoid competing with food crops and protect biodiversity.",
+            "Combining bioenergy with carbon capture can create energy while removing carbon dioxide from the air.",
+            "Bioenergy is one part of a diverse clean energy future that includes solar, wind, and hydro."
+        ]
+    },
+    {
+        id: "habitat-protection",
+        title: "Habitat Protection",
+        module: "Biodiversity & Sustainable Living",
+        content: [
+            "Protecting habitats keeps ecosystems strong and supports the creatures that live there.",
+            "Forests, wetlands, and grasslands all provide food, shelter, and clean water for wildlife.",
+            "Habitat loss is one of the biggest threats to biodiversity, driven by development and pollution.",
+            "Creating protected areas and wildlife corridors helps species move safely and find resources.",
+            "Healthy habitats also benefit people by improving air quality, reducing flooding, and storing carbon.",
+            "Protecting natural places preserves the services they provide, such as pollination and water purification.",
+            "Restoring degraded habitats can help bring back species that have declined or disappeared.",
+            "Reducing pollution and controlling invasive species supports the balance of native ecosystems.",
+            "Supporting protected areas helps ensure that future generations can enjoy nature’s richness.",
+            "Every habitat saved contributes to a healthier planet for people and wildlife alike."
+        ]
+    },
+    {
+        id: "urban-green",
+        title: "Urban Green Spaces",
+        module: "Biodiversity & Sustainable Living",
+        content: [
+            "Parks, gardens, and tree-lined streets make urban areas more pleasant and healthier.",
+            "Green spaces cool cities, improve air quality, and provide homes for birds and insects.",
+            "Community gardens and pocket parks bring plants and wildlife into neighborhoods.",
+            "More green space encourages outdoor activity, reduces stress, and supports biodiversity in cities.",
+            "Planting trees and maintaining green areas helps cities adapt to heat and climate change.",
+            "Urban green spaces create quieter, more comfortable places for people to enjoy nature.",
+            "Trees and plants absorb rainwater, reducing flooding and easing pressure on storm drains.",
+            "Green roofs and living walls add growing space to buildings and help insulate them.",
+            "Schools and neighborhoods can work together to create shared gardens and green corridors.",
+            "Healthy urban nature improves both mental well-being and the quality of city life."
+        ]
+    },
+    {
+        id: "eco-transport",
+        title: "Eco-Friendly Transportation",
+        module: "Biodiversity & Sustainable Living",
+        content: [
+            "Walking, biking, and public transport are cleaner alternatives to driving alone.",
+            "Reducing vehicle use lowers pollution, greenhouse gases, and traffic congestion.",
+            "Electric buses, trains, and bike-sharing programs make transportation more sustainable.",
+            "Planning trips and combining errands helps save fuel and cut emissions.",
+            "Choosing eco-friendly travel supports healthier communities and protects natural habitats.",
+            "Safe bike lanes, sidewalks, and transit options make sustainable travel easier for everyone.",
+            "Carpooling and using school buses reduce the number of vehicles on the road each day.",
+            "Electric vehicles produce fewer emissions than gasoline cars, especially when the electricity comes from clean sources.",
+            "Reducing the distance we travel for shopping and work can save energy and time.",
+            "Supporting sustainable transport systems helps cities become cleaner, quieter, and more livable."
+        ]
+    },
+    {
+        id: "energy-efficiency",
+        title: "Energy Efficiency in Buildings",
+        module: "Biodiversity & Sustainable Living",
+        content: [
+            "Improving insulation, sealing drafts, and upgrading windows help buildings use less energy.",
+            "Energy-efficient appliances and lighting reduce power consumption and save money.",
+            "Smart thermostats let people control heating and cooling more precisely and avoid waste.",
+            "Using natural light and proper ventilation also improves comfort while lowering energy needs.",
+            "Buildings that use less energy reduce greenhouse gas emissions and support a sustainable future.",
+            "Choosing LED bulbs and turning off lights in unused rooms are simple, effective steps.",
+            "Properly maintaining heating and cooling systems makes them run more efficiently.",
+            "Energy-efficient windows and shading help keep indoor temperatures stable throughout the year.",
+            "Designing buildings with good insulation and passive solar design can cut energy use drastically.",
+            "When many buildings save energy, the whole community benefits from cleaner air and lower energy costs."
+        ]
+    }
+];
+
+function getQueryParam(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+}
+
+function renderTopic(topic) {
+    document.getElementById('topicTitle').innerText = topic.title;
+    document.getElementById('topicModule').innerText = `Module: ${topic.module}`;
+    const contentHtml = topic.content.map(paragraph => `<p>${paragraph}</p>`).join('');
+    document.getElementById('topicContent').innerHTML = contentHtml;
+}
+
+function renderTopicNavigation(currentId) {
+    const index = topics.findIndex(topic => topic.id === currentId);
+    const prevBtn = document.getElementById('prevTopic');
+    const nextBtn = document.getElementById('nextTopic');
+    const position = document.getElementById('topicPosition');
+
+    if (index > 0) {
+        prevBtn.classList.remove('d-none');
+        prevBtn.href = `topic.html?id=${topics[index - 1].id}`;
+    } else {
+        prevBtn.classList.add('d-none');
+    }
+
+    if (index < topics.length - 1) {
+        nextBtn.classList.remove('d-none');
+        nextBtn.href = `topic.html?id=${topics[index + 1].id}`;
+    } else {
+        nextBtn.classList.add('d-none');
+    }
+
+    position.innerText = `Topic ${index + 1} of ${topics.length}`;
+}
+
+const topicId = getQueryParam('id');
+const topic = topics.find(item => item.id === topicId);
+if (topic) {
+    renderTopic(topic);
+    renderTopicNavigation(topicId);
+} else {
+    document.getElementById('topicTitle').innerText = 'Topic Not Found';
+    document.getElementById('topicContent').innerHTML = '<p>Please choose a topic from the <a href="lessons.html">Modules page</a>.</p>';
+    document.getElementById('topicModule').innerText = '';
+    document.getElementById('topicPosition').innerText = '';
+}
+</script>
+<div id="sharedFooter"></div>
+<script src="../js/layout.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+.shared-header {
+    font-family: Arial, sans-serif;
+}
+
+.shared-header .nav-link {
+    color: rgba(255, 255, 255, 0.9);
+    transition: color 0.2s;
+}
+
+.shared-header .nav-link:hover,
+.shared-header .nav-link.active {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.shared-footer {
+    font-size: 0.95rem;
+}
+
+.shared-footer a {
+    color: #198754;
+}
+
+.shared-footer a:hover {
+    text-decoration: none;
+}
+
+@media (max-width: 767px) {
+    .shared-header nav {
+        display: none;
+    }
+}

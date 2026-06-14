@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoChamp Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/layout.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        html {
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #f5fff5;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        main.dashboard-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        main.dashboard-content > .container-fluid {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 0.75rem;
+            margin: 0;
+            max-width: 100%;
+        }
+
+        main.dashboard-content .row {
+            margin: 0;
+            padding: 0.75rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        main.dashboard-content .col-md-10 {
+            padding: 0.75rem;
+            overflow-x: hidden;
+        }
+
+        main.dashboard-content .col-md-2 {
+            padding: 0;
+        }
+
+        h2 {
+            font-size: 1.5rem !important;
+            margin-bottom: 0.5rem !important;
+        }
+
+        h4 {
+            font-size: 1rem !important;
+            margin-bottom: 0.3rem !important;
+        }
+
+        h5 {
+            font-size: 0.95rem !important;
+            margin-bottom: 0.3rem !important;
+        }
+
+        .mission-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            letter-spacing: 0.02em;
+        }
+
+        .dashboard-card h4,
+        .dashboard-card h5 {
+            margin-bottom: 0.4rem;
+        }
+
+        .dashboard-card p {
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        p {
+            margin-bottom: 0.5rem !important;
+            font-size: 0.9rem;
+        }
+
+        .shared-footer {
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .sidebar {
+            min-height: 100vh;
+            background: #198754;
+            padding: 0;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 12px 15px;
+            font-size: 0.9rem;
+        }
+
+        .sidebar a:hover {
+            background: #146c43;
+        }
+
+        .dashboard-card {
+            border-radius: 12px;
+            transition: 0.3s;
+            min-height: 100%;
+            padding: 1rem !important;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .challenge-card {
+            border-left: 4px solid #198754;
+            min-height: 100%;
+            padding: 1rem !important;
+        }
+
+        .card {
+            padding: 1rem !important;
+            margin-bottom: 0.75rem;
+        }
+
+        .row.align-items-stretch > [class*="col-"] {
+            display: flex;
+        }
+
+        .row.align-items-stretch > [class*="col-"] .card {
+            flex: 1;
+        }
+
+        .badge-box {
+            font-size: 32px;
+        }
+
+        .btn {
+            padding: 0.4rem 0.8rem !important;
+            font-size: 0.85rem !important;
+        }
+
+        .progress {
+            height: 20px !important;
+        }
+
+        h1.display-4 {
+            font-size: 3rem !important;
+            margin: 0.5rem 0 !important;
+        }
+
+        .gap-3 {
+            gap: 0.75rem !important;
+        }
+
+        .mt-4 {
+            margin-top: 0.75rem !important;
+        }
+
+        .mt-3 {
+            margin-top: 0.5rem !important;
+        }
+
+        .mb-3 {
+            margin-bottom: 0.5rem !important;
+        }
+
+        .mb-2 {
+            margin-bottom: 0.3rem !important;
+        }
+
+        .px-3 {
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
+        }
+
+        .py-2 {
+            padding-top: 0.3rem !important;
+            padding-bottom: 0.3rem !important;
+        }
+
+        .g-3 {
+            gap: 0.75rem !important;
+        }
+
+        .text-secondary {
+            font-size: 0.85rem !important;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+        
+        /* Reward Notifications */
+        .reward-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            text-align: center;
+            animation: slideUp 0.3s ease-out forwards;
+            min-width: 300px;
+            border: 3px solid #FFD700;
+        }
+        
+        .reward-notification.show {
+            animation: slideUp 0.3s ease-out forwards;
+        }
+        
+        .reward-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .reward-notification h3 {
+            color: #198754;
+            margin: 0;
+            font-weight: bold;
+        }
+        
+        .reward-notification h4 {
+            color: #146c43;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .reward-notification p {
+            color: #666;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        /* Achievement Notifications */
+        .achievement-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #198754 0%, #146c43 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            color: white;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            animation: slideIn 0.3s ease-out forwards;
+            min-width: 250px;
+        }
+        
+        .achievement-notification.show {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        
+        .achievement-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .achievement-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+        
+        .achievement-notification h4 {
+            color: white;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .achievement-notification p {
+            color: #e8f5e9;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+        
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, 0) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(400px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="sharedHeader"></div>
+    <main class="dashboard-content flex-grow-1">
+        <div class="container-fluid py-4">
+
+            <div class="row">
+
+            <!-- Sidebar -->
+
+            <div class="col-md-2 sidebar">
+
+                <a href="index.html">
+                    <i class="fas fa-home"></i> Home
+                </a>
+
+                <a href="dashboard.html">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+
+                <a href="lessons.html">
+                    <i class="fas fa-book"></i> Modules
+                </a>
+
+                <a href="quiz.html">
+                    <i class="fas fa-question-circle"></i> Quiz
+                </a>
+
+                <a href="challenges.html">
+                    <i class="fas fa-bullseye"></i> Challenges
+                </a>
+
+                <a href="leaderboard.html">
+                    <i class="fas fa-trophy"></i> Leaderboard
+                </a>
+
+            </div>
+
+            <!-- Main Content -->
+
+            <div class="col-md-10 p-4">
+
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
+                    <div>
+                        <h2 id="welcomeMessage">Welcome back 👋</h2>
+                        <p class="text-secondary">Keep going — you are on track to become a top Eco Champion.</p>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge bg-success text-white px-3 py-2" id="userLevel">Level 3 Eco Warrior</span>
+                    </div>
+                </div>
+
+                <div class="row mt-4 g-3 align-items-stretch">
+                    <div class="col-md-3">
+                        <div class="card dashboard-card shadow p-4 text-center h-100">
+                            <h1>🌱</h1>
+                            <h3 id="points">320</h3>
+                            <p>Eco Points</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card dashboard-card shadow p-4 text-center h-100">
+                            <h1>🏅</h1>
+                            <h3 id="badges">4</h3>
+                            <p>Badges Earned</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card dashboard-card shadow p-4 text-center h-100">
+                            <h1>🎯</h1>
+                            <h3 id="challenges">12</h3>
+                            <p>Challenges Completed</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card dashboard-card shadow p-4 text-center h-100">
+                            <h1>📚</h1>
+                            <h3 id="activities">8</h3>
+                            <p>Lessons Completed</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rewards Progress Section -->
+                <div class="row mt-4 g-3">
+                    <div class="col-md-6">
+                        <div class="card shadow h-100" style="padding: 1rem;">
+                            <h5 style="font-weight: 600; margin-bottom: 1rem;">🎖️ Reward Progress</h5>
+                            <div id="rewardProgressContainer">
+                                <div style="text-align: center; padding: 1rem;">
+                                    <p class="text-muted">Loading rewards...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card shadow h-100" style="padding: 1rem;">
+                            <h5 style="font-weight: 600; margin-bottom: 1rem;">⭐ Achievements Unlocked</h5>
+                            <div id="achievementsContainer">
+                                <p class="text-muted">Complete activities to unlock achievements</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unlocked Rewards Section -->
+                <div class="row mt-4 g-3">
+                    <div class="col-md-12">
+                        <div class="card shadow" style="padding: 1rem;">
+                            <h5 style="font-weight: 600; margin-bottom: 1rem;">🏆 Your Rewards</h5>
+                            <div id="unlockedRewardsContainer" class="row g-3">
+                                <p class="text-muted col-12">Complete more activities to unlock rewards!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row mt-4 g-3 align-items-stretch">
+                    <div class="col-md-3">
+                        <div class="card challenge-card shadow p-4 h-100">
+                            <h5>🔥 Today's Challenge</h5>
+                            <p class="mb-3">Plant a tree and share your picture.</p>
+                            <a href="challenges.html" class="btn btn-success">Start Challenge</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow p-4 h-100">
+                            <h5>📘 Next Lesson</h5>
+                            <p class="mb-3">Explore sustainable living topics in the Biodiversity module.</p>
+                            <a href="lessons.html" class="btn btn-success">Open Modules</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow p-4 h-100">
+                            <h5>🧠 Quiz Practice</h5>
+                            <p class="mb-3">Answer quick questions to boost your eco knowledge.</p>
+                            <a href="quiz.html" class="btn btn-success">Take Quiz</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow p-4 h-100">
+                            <h5>🏆 Top Rewards</h5>
+                            <p class="mb-3">Earn new rewards by keeping your streak and completing challenges.</p>
+                            <a href="leaderboard.html" class="btn btn-success">View Leaderboard</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4 g-3 align-items-stretch">
+                    <div class="col-md-6">
+                        <div class="card shadow p-4 h-100">
+                            <h4>🌍 Impact Summary</h4>
+                            <p class="text-secondary">Every action adds up. Track your collective environmental wins here.</p>
+                            <div class="row text-center mt-3">
+                                <div class="col-6 mb-3">
+                                    <h1>🌳</h1>
+                                    <h4>48</h4>
+                                    <p class="mb-0">Trees Planted</p>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h1>♻️</h1>
+                                    <h4>120kg</h4>
+                                    <p class="mb-0">Plastic Saved</p>
+                                </div>
+                                <div class="col-6">
+                                    <h1>⚡</h1>
+                                    <h4>350</h4>
+                                    <p class="mb-0">Energy Saved</p>
+                                </div>
+                                <div class="col-6">
+                                    <h1>💧</h1>
+                                    <h4>500L</h4>
+                                    <p class="mb-0">Water Saved</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card shadow p-4 h-100">
+                            <h4>🌟 Recent Wins</h4>
+                            <ul class="list-group list-group-flush mt-3">
+                                <li class="list-group-item">Completed a water-saving challenge and saved 20 liters.</li>
+                                <li class="list-group-item">Finished the Renewable Energy lesson with top quiz score.</li>
+                                <li class="list-group-item">Added a new challenge submission with a tree planting photo.</li>
+                                <li class="list-group-item">Reached a 5-day eco streak and moved closer to the next badge.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow mt-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h4>Weekly Eco Points</h4>
+                                <p class="text-secondary mb-0">See how your activity changed through the week.</p>
+                            </div>
+                            <span class="badge bg-success">+30 pts since last week</span>
+                        </div>
+                        <canvas id="ecoChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        // Check if user is logged in
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+        
+        // Load user data and personalize dashboard
+        function initializeDashboard() {
+            const userName = localStorage.getItem('userName');
+            const userLevel = localStorage.getItem('userLevel') || 1;
+            const userId = localStorage.getItem('userId');
+            
+            // Get user-specific points or fallback to global
+            let userPoints = parseInt(localStorage.getItem(`userPoints_${userId}`)) || 0;
+            if (userPoints === 0) {
+                userPoints = parseInt(localStorage.getItem('userPoints')) || 0;
+            }
+            
+            const userBadges = parseInt(localStorage.getItem('userBadges')) || 0;
+            const userChallenges = parseInt(localStorage.getItem('userChallenges')) || 0;
+            const userActivities = parseInt(localStorage.getItem('userActivities')) || 0;
+
+            // If no username found after login, redirect to login
+            if (!userName) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            document.getElementById('welcomeMessage').innerText = `Welcome back, ${userName} 👋`;
+            document.getElementById('userLevel').innerText = `Level ${userLevel} Eco Warrior`;
+            document.getElementById('points').innerText = userPoints;
+            document.getElementById('badges').innerText = userBadges;
+            document.getElementById('challenges').innerText = userChallenges;
+            document.getElementById('activities').innerText = userActivities;
+        }
+        
+        initializeDashboard();
+        
+        const ctx = document.getElementById('ecoChart');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Eco Points',
+                    data: [20, 40, 60, 80, 100, 150, 200],
+                    borderWidth: 3
+                }]
+            }
+        });
+    </script>
+<div id="sharedFooter"></div>
+<script src="../js/layout.js"></script>
+<script src="../js/rewards.js"></script>
+<script>
+    // Display rewards progress
+    function displayRewardsProgress() {
+        const currentTier = getCurrentRewardTier();
+        const nextReward = getNextReward();
+        const progress = getRewardProgress();
+        
+        const container = document.getElementById('rewardProgressContainer');
+        
+        if (currentTier) {
+            container.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">${currentTier.icon}</div>
+                    <h6 style="font-weight: 600;">${currentTier.name}</h6>
+                    <p style="color: #666; font-size: 0.85rem;">You have earned ${currentTier.points} points</p>
+                    <hr style="margin: 1rem 0;">
+                </div>
+            `;
+        }
+        
+        // Next reward progress
+        const pointsToNext = getPointsToNextReward();
+        container.innerHTML += `
+            <div>
+                <p style="font-size: 0.85rem; color: #666; margin-bottom: 0.5rem;">
+                    Next: ${nextReward.name} <strong>${pointsToNext} points to go</strong>
+                </p>
+                <div class="progress" style="height: 25px; border-radius: 12px; background: #e8f5e9;">
+                    <div class="progress-bar" style="width: ${progress}%; background: linear-gradient(90deg, #4CAF50, #2196F3); border-radius: 12px; transition: width 0.3s;" role="progressbar"></div>
+                </div>
+                <p style="font-size: 0.75rem; color: #999; margin-top: 0.5rem; text-align: right;">${Math.round(progress)}%</p>
+            </div>
+        `;
+    }
+
+    // Display achievements
+    function displayAchievements() {
+        const achievements = JSON.parse(localStorage.getItem('achievements')) || [];
+        const container = document.getElementById('achievementsContainer');
+        
+        if (achievements.length === 0) {
+            container.innerHTML = '<p class="text-muted">Complete activities to unlock achievements</p>';
+            return;
+        }
+        
+        container.innerHTML = achievements.map(achievement => `
+            <div style="display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; margin-right: 1rem;">
+                <span style="font-size: 1.5rem;">${achievement.icon}</span>
+                <div>
+                    <p style="margin: 0; font-size: 0.85rem; font-weight: 500;">${achievement.name}</p>
+                    <p style="margin: 0; font-size: 0.75rem; color: #999;">Unlocked: ${achievement.unlockedAt}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Display unlocked rewards
+    function displayUnlockedRewards() {
+        const unlockedRewards = JSON.parse(localStorage.getItem('unlockedRewards')) || [];
+        const container = document.getElementById('unlockedRewardsContainer');
+        
+        if (unlockedRewards.length === 0) {
+            container.innerHTML = '<p class="text-muted col-12">Complete more activities to unlock rewards!</p>';
+            return;
+        }
+        
+        container.innerHTML = unlockedRewards.map(reward => `
+            <div class="col-md-4">
+                <div class="card h-100" style="text-align: center; padding: 1.5rem; border: 2px solid ${reward.color}; background: linear-gradient(135deg, ${reward.color}15 0%, transparent 100%);">
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">${reward.icon}</div>
+                    <h6 style="font-weight: 600; color: #146c43; margin-bottom: 0.5rem;">${reward.name}</h6>
+                    <p style="font-size: 0.8rem; color: #666; margin: 0;">${reward.description}</p>
+                    <p style="font-size: 0.75rem; color: #999; margin-top: 0.5rem;">Unlocked: ${reward.unlockedAt}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Initialize and display all reward-related information
+    function initializeDashboardRewards() {
+        displayRewardsProgress();
+        displayAchievements();
+        displayUnlockedRewards();
+    }
+
+    // Call on page load
+    initializeDashboardRewards();
+</script>
+
+</html>

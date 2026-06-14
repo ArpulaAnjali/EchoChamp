@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewards System - EcoChamp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <style>
+        html {
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #f5fff5;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        main .container-fluid {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            margin: 0;
+            max-width: 100%;
+        }
+
+        main .row {
+            margin: 0;
+            padding: 0.75rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        main .col-md-10 {
+            padding: 1.5rem;
+            overflow-x: hidden;
+        }
+
+        main .col-md-2 {
+            padding: 0;
+        }
+
+        .sidebar {
+            min-height: 100vh;
+            background: #198754;
+            padding: 0;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 12px 15px;
+            font-size: 0.9rem;
+        }
+
+        .sidebar a:hover {
+            background: #146c43;
+        }
+
+        .reward-tier {
+            border-left: 4px solid #198754;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .reward-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            background: #e8f5e9;
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .progress-card {
+            background: linear-gradient(135deg, #f5fff5 0%, #e8f5e9 100%);
+            border: 2px solid #198754;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .activity-points {
+            background: #f5fff5;
+            border-left: 4px solid #198754;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="sharedHeader"></div>
+<main>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar">
+                <a href="index.html">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="dashboard.html">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="lessons.html">
+                    <i class="fas fa-book"></i> Modules
+                </a>
+                <a href="quiz.html">
+                    <i class="fas fa-question-circle"></i> Quiz
+                </a>
+                <a href="challenges.html">
+                    <i class="fas fa-bullseye"></i> Challenges
+                </a>
+                <a href="leaderboard.html">
+                    <i class="fas fa-trophy"></i> Leaderboard
+                </a>
+                <a href="rewards.html" style="background: #146c43;">
+                    <i class="fas fa-gift"></i> Rewards
+                </a>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-10">
+                <h2 style="margin-bottom: 1rem;">🎁 Rewards System</h2>
+                <p class="text-muted">Earn Eco Points through activities and unlock amazing rewards and achievements!</p>
+
+                <!-- How to Earn Points -->
+                <div class="progress-card">
+                    <h4>💰 How to Earn Eco Points</h4>
+                    <div class="activity-points">
+                        <strong>📝 Quiz</strong><br>
+                        <span class="text-muted">+10 points per correct answer</span>
+                    </div>
+                    <div class="activity-points">
+                        <strong>🌿 Activities</strong><br>
+                        <span class="text-muted">+25 points per completed activity</span>
+                    </div>
+                    <div class="activity-points">
+                        <strong>🎯 Challenges</strong><br>
+                        <span class="text-muted">+50 points per completed challenge</span>
+                    </div>
+                    <div class="activity-points">
+                        <strong>📚 Lessons</strong><br>
+                        <span class="text-muted">+15 points per lesson completed</span>
+                    </div>
+                </div>
+
+                <!-- Reward Tiers -->
+                <h4 style="margin-top: 2rem; margin-bottom: 1rem;">🏆 Reward Tiers</h4>
+
+                <div class="reward-tier">
+                    <div style="display: flex; align-items: center;">
+                        <span class="reward-icon">🥉</span>
+                        <div>
+                            <h5 style="margin: 0;">Bronze Eco-Warrior</h5>
+                            <p style="margin: 0; color: #666;">Reach 100 Eco Points</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reward-tier">
+                    <div style="display: flex; align-items: center;">
+                        <span class="reward-icon">🥈</span>
+                        <div>
+                            <h5 style="margin: 0;">Silver Eco-Protector</h5>
+                            <p style="margin: 0; color: #666;">Reach 250 Eco Points</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reward-tier">
+                    <div style="display: flex; align-items: center;">
+                        <span class="reward-icon">🥇</span>
+                        <div>
+                            <h5 style="margin: 0;">Gold Green-Champion</h5>
+                            <p style="margin: 0; color: #666;">Reach 500 Eco Points</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reward-tier">
+                    <div style="display: flex; align-items: center;">
+                        <span class="reward-icon">💎</span>
+                        <div>
+                            <h5 style="margin: 0;">Platinum Sustainability-Leader</h5>
+                            <p style="margin: 0; color: #666;">Reach 1000 Eco Points</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reward-tier">
+                    <div style="display: flex; align-items: center;">
+                        <span class="reward-icon">👑</span>
+                        <div>
+                            <h5 style="margin: 0;">Diamond Planet-Guardian</h5>
+                            <p style="margin: 0; color: #666;">Reach 2000 Eco Points</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reward-tier">
+                    <div style="display: flex; align-items: center;">
+                        <span class="reward-icon">⭐</span>
+                        <div>
+                            <h5 style="margin: 0;">Legendary Earth-Savior</h5>
+                            <p style="margin: 0; color: #666;">Reach 5000 Eco Points</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievements -->
+                <h4 style="margin-top: 2rem; margin-bottom: 1rem;">⭐ Achievements</h4>
+
+                <div class="achievement-item">
+                    <span class="achievement-icon">📝</span>
+                    <div>
+                        <h6 style="margin: 0;">Quiz Starter</h6>
+                        <p style="margin: 0; color: #666; font-size: 0.85rem;">Complete your first quiz</p>
+                    </div>
+                </div>
+
+                <div class="achievement-item">
+                    <span class="achievement-icon">🎯</span>
+                    <div>
+                        <h6 style="margin: 0;">Level Master</h6>
+                        <p style="margin: 0; color: #666; font-size: 0.85rem;">Complete 5 different quiz levels</p>
+                    </div>
+                </div>
+
+                <div class="achievement-item">
+                    <span class="achievement-icon">⚡</span>
+                    <div>
+                        <h6 style="margin: 0;">Perfect Run</h6>
+                        <p style="margin: 0; color: #666; font-size: 0.85rem;">Get 10/10 in a quiz</p>
+                    </div>
+                </div>
+
+                <div class="achievement-item">
+                    <span class="achievement-icon">🌍</span>
+                    <div>
+                        <h6 style="margin: 0;">Activity Expert</h6>
+                        <p style="margin: 0; color: #666; font-size: 0.85rem;">Complete 5 activities</p>
+                    </div>
+                </div>
+
+                <div class="achievement-item">
+                    <span class="achievement-icon">🏆</span>
+                    <div>
+                        <h6 style="margin: 0;">Challenge Winner</h6>
+                        <p style="margin: 0; color: #666; font-size: 0.85rem;">Complete 3 challenges</p>
+                    </div>
+                </div>
+
+                <div class="achievement-item">
+                    <span class="achievement-icon">🔥</span>
+                    <div>
+                        <h6 style="margin: 0;">Consistent Guardian</h6>
+                        <p style="margin: 0; color: #666; font-size: 0.85rem;">Play 7 days in a row</p>
+                    </div>
+                </div>
+
+                <!-- Tips -->
+                <div class="progress-card" style="margin-top: 2rem;">
+                    <h4>💡 Tips to Earn More Points</h4>
+                    <ul style="margin-bottom: 0;">
+                        <li>Complete quizzes regularly - each correct answer earns 10 points</li>
+                        <li>Participate in daily challenges for bigger rewards</li>
+                        <li>Complete all lessons in each module to maximize points</li>
+                        <li>Aim for perfect scores in quizzes to unlock special achievements</li>
+                        <li>Consistency is key - log in daily to maintain your streak</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="sharedFooter"></div>
+<script src="../js/layout.js"></script>
+
+</body>
+</html>
